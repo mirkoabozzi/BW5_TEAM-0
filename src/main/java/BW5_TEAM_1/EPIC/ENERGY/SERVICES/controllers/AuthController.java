@@ -7,7 +7,7 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserLoginDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserRespDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.AuthService;
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.UserService;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -24,7 +24,7 @@ public class AuthController {
     AuthService authService;
 
     @Autowired
-    UserService userService;
+    UsersService userService;
 
     @PostMapping("/login")
     public UserRespDTO login(@RequestBody UserLoginDTO user) {

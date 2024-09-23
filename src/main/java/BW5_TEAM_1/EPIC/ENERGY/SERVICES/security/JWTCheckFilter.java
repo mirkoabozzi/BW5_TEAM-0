@@ -2,7 +2,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.security;
 
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.UnauthorizedException;
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.UserService;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.UsersService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     JWTTools jwtTools;
 
     @Autowired
-    UserService userService;
+    UsersService userService;
 
 
     @Override

@@ -5,7 +5,7 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.User;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.UserRepository;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UsersService {
 
     @Autowired
-    UserRepository userRepository;
+    UsersRepository userRepository;
 
     @Autowired
     PasswordEncoder bcrypt;

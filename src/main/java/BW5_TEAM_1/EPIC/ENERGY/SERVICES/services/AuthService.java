@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     @Autowired
-    UserService userService;
+    UsersService userService;
 
     @Autowired
     JWTTools jwtTools;
