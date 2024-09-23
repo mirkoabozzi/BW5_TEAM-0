@@ -27,7 +27,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-        if (authHeader != null || !authHeader.startsWith("Bearer "))
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
             throw new UnauthorizedException("INSERT DATA CORRECTLY");
         String accessToken = authHeader.substring(7);
         jwtTools.verifyToke(accessToken);

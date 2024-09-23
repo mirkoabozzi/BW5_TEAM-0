@@ -45,11 +45,11 @@ public class UserService {
         User newUser = new User(
                 body.username(),
                 body.email(),
-                body.password(),
+                this.bcrypt.encode(body.password()),
                 body.name(),
                 body.surname(),
                 "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
-        return newUser;
+        return this.userRepository.save(newUser);
     }
 
     public User findFromEmail(String email) {
