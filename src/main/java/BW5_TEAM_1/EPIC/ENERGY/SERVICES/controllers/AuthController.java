@@ -1,7 +1,9 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.controllers;
 
 
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.User;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserDTO;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserLoginDTO;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserRespDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.AuthService;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.UserService;
@@ -24,20 +26,19 @@ public class AuthController {
     UserService userService;
 
     @PostMapping("/login")
-    // TODO: cambiare lo user in userDTO
-    public User login(@RequestBody User user) {
-        return new User(this.authService.checkCredentialAndGenerateToken(user));
+
+    public UserRespDTO login(@RequestBody UserLoginDTO user) {
+        return new UserRespDTO(this.authService.checkCredentialAndGenerateToken(user));
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    // TODO: cambiare user in newUserDTO
-    public User save(@RequestBody @Validated User body, BindingResult validationResult) {
+    public UserRespDTO save(@RequestBody @Validated UserDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String msg = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException(msg);
         } else {
-            return new User(this.userService.saveEmployee(body).getId());
+            return new UserRespDTO(this.userService.saveEmployee(body).getId());
         }
     }
 }
