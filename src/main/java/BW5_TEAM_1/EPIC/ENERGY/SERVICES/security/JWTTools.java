@@ -25,14 +25,14 @@ public class JWTTools {
 
     public void verifyToke(String token) {
         try {
-            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(token.getBytes())).build().parse(token);
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
         } catch (Exception ex) {
             throw new UnauthorizedException("PROBLEMS WITH TOKEN, TRY TO LOGIN");
         }
     }
 
     public String extractIdFromToken(String accessToken) {
-        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(accessToken.getBytes())).build().parseSignedClaims(accessToken).getPayload().getSubject();
+        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(accessToken).getPayload().getSubject();
     }
 
 }
