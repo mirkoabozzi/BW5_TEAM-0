@@ -1,6 +1,7 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.controllers;
 
 
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.NewUserDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserLoginDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserRespDTO;
@@ -26,19 +27,18 @@ public class AuthController {
     UserService userService;
 
     @PostMapping("/login")
-
     public UserRespDTO login(@RequestBody UserLoginDTO user) {
         return new UserRespDTO(this.authService.checkCredentialAndGenerateToken(user));
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserRespDTO save(@RequestBody @Validated UserDTO body, BindingResult validationResult) {
+    public NewUserDTO save(@RequestBody @Validated UserDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String msg = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException(msg);
         } else {
-            return new UserRespDTO(this.userService.saveEmployee(body).getId());
+            return new NewUserDTO(this.userService.saveUser(body).getId());
         }
     }
 }

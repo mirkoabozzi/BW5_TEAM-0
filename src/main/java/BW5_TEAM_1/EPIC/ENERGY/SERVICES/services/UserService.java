@@ -47,8 +47,13 @@ public class UserService {
                 body.email(),
                 body.password(),
                 body.name(),
-                body.surname()
-        );
+                body.surname(),
+                "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
+        return newUser;
+    }
+
+    public User findFromEmail(String email) {
+        return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(email));
     }
 
 }

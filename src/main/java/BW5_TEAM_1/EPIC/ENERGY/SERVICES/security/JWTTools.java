@@ -13,7 +13,7 @@ public class JWTTools {
     @Value("${jwt_secret}")
     private String secret;
 
-    public String createToke(User user) {
+    public String createToken(User user) {
         return Jwts.builder().issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .subject(String.valueOf(user.getId()))
