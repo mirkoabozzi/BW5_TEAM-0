@@ -19,7 +19,7 @@ public class ErrorsHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsDTO handleAllEx(Exception ex) {
         ex.printStackTrace();
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+        return new ErrorsDTO("Server error", LocalDateTime.now());
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -50,6 +50,12 @@ public class ErrorsHandler {
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest(BadRequestException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsDTO handleIllegalArgumentsExceptions(IllegalArgumentException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 }

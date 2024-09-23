@@ -38,8 +38,8 @@ public class AddressesService {
         return this.addressesRepository.findAll(pageable);
     }
 
-    //PUT
-    public Address update(UUID id, AddressesDTO payload) {
+    //PUT UPDATE
+    public Address updateAddress(UUID id, AddressesDTO payload) {
         Address addressFound = this.findByID(id);
         addressFound.setStreet(payload.street());
         addressFound.setStreetNumber(payload.streetNumber());

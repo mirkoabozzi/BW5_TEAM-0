@@ -34,6 +34,7 @@ public class ClientsController {
         }
     }
 
+    // GET ALL
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Client> getAllClients(@RequestParam(defaultValue = "0") int page,
@@ -47,6 +48,18 @@ public class ClientsController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public Client findById(@PathVariable UUID id) {
         return this.clientsService.findByID(id);
+    }
+
+    //PUT UPDATE
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Client updateClient(@PathVariable UUID id, @RequestBody @Validated ClientsDTO payload, BindingResult validation) {
+        if (validation.hasErrors()) {
+            String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
+            throw new BadRequestException("Payload error: " + msg);
+        } else {
+            return this.clientsService.updateClient(id, payload);
+        }
     }
 
     //DELETE BY ID

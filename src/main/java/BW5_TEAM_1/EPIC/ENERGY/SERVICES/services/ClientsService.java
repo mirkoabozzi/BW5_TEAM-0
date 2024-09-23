@@ -3,6 +3,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.services;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.ClientsDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Address;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Client;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.CompanyType;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.ClientsRepository;
@@ -42,7 +43,7 @@ public class ClientsService {
                 payload.contactSurname(),
                 payload.contactNumber(),
                 "https://ui-avatars.com/api/?name=" + payload.contactName() + "+" + payload.contactSurname(),
-                payload.companyType(),
+                CompanyType.valueOf(payload.companyType().toUpperCase()),
                 addressesList);
         return this.clientsRepository.save(newClient);
     }
@@ -58,8 +59,9 @@ public class ClientsService {
         return this.clientsRepository.findAll(pageable);
     }
 
-    //PUT
-    public Client update(UUID id, ClientsDTO payload) {
+    //PUT UPDATE
+    public Client updateClient(UUID id, ClientsDTO payload) {
+        List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
         Client clientFound = this.findByID(id);
         clientFound.setCompanyName(payload.companyName());
         clientFound.setVat(payload.vat());
@@ -69,6 +71,9 @@ public class ClientsService {
         clientFound.setContactEmail(payload.contactEmail());
         clientFound.setContactSurname(payload.contactSurname());
         clientFound.setContactNumber(payload.contactNumber());
+        clientFound.setCompanyType(CompanyType.valueOf(payload.companyType().toUpperCase()));
+        clientFound.getAddressList().clear();
+        clientFound.getAddressList().addAll(addressesList);
         return this.clientsRepository.save(clientFound);
     }
 

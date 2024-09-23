@@ -1,13 +1,14 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto;
 
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.CompanyType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
 public record ClientsDTO(
         @NotNull(message = "Company is required ")
+        @Size(min = 3, max = 20, message = "Size must be from 3 to 20 character. ")
         String companyName,
         @NotNull(message = "VAT is required ")
         long vat,
@@ -22,13 +23,15 @@ public record ClientsDTO(
         @Email(message = "Contact email is required ")
         String contactEmail,
         @NotNull(message = "Contact name is required ")
+        @Size(min = 3, max = 20, message = "Size must be from 3 to 20 character. ")
         String contactName,
         @NotNull(message = "Contact surname is required ")
+        @Size(min = 3, max = 20, message = "Size must be from 3 to 20 character. ")
         String contactSurname,
         @NotNull(message = "Contact number is required ")
         long contactNumber,
         @NotNull(message = "Company type is required ")
-        CompanyType companyType,
+        String companyType,
         @NotNull(message = "Addresses is required ")
         List<String> addresses
 ) {

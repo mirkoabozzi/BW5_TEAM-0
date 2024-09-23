@@ -34,6 +34,7 @@ public class AddressesController {
         }
     }
 
+    //GET ALL
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Address> getAllAddresses(@RequestParam(defaultValue = "0") int page,
@@ -49,6 +50,18 @@ public class AddressesController {
         return this.addressesService.findByID(id);
     }
 
+    //PUT UPDATE
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Address updateAddress(@PathVariable UUID id, @RequestBody @Validated AddressesDTO payload, BindingResult validation) {
+        if (validation.hasErrors()) {
+            String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
+            throw new BadRequestException("Payload error: " + msg);
+        } else {
+            return this.addressesService.updateAddress(id, payload);
+        }
+    }
+
     //DELETE BY ID
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -56,6 +69,4 @@ public class AddressesController {
     public void delete(@PathVariable UUID id) {
         this.addressesService.delete(id);
     }
-
-
 }
