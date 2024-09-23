@@ -2,6 +2,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.services;
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.AddressesDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Address;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.AddressesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class AddressesService {
 
     //POST SAVE
     public Address saveAddress(AddressesDTO payload) {
+        if (this.addressesRepository.existsByZipNumberAndStreetAndStreetNumber(payload.zipNumber(), payload.street(), payload.streetNumber()))
+            throw new BadRequestException("Address already on DB");
         Address newAddress = new Address(payload.street(), payload.streetNumber(), payload.location(), payload.zipNumber());
         return this.addressesRepository.save(newAddress);
     }

@@ -1,6 +1,7 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.services;
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.ClientsDTO;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Address;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Client;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
@@ -9,17 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class ClientsService {
     @Autowired
     private ClientsRepository clientsRepository;
+    @Autowired
+    private AddressesService addressesService;
 
     //POST SAVE
     public Client saveClient(ClientsDTO payload) {
         if (clientsRepository.existsByVat(payload.vat()))
             throw new BadRequestException("Client with VAT " + payload.vat() + " already on DB");
+        List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
         Client newClient = new Client(
                 payload.companyName(),
                 payload.vat(),
@@ -33,13 +38,15 @@ public class ClientsService {
                 payload.contactSurname(),
                 payload.contactNumber(),
                 "https://ui-avatars.com/api/?name=" + payload.contactName() + "+" + payload.contactSurname(),
-                payload.companyType());
+                payload.companyType(),
+                addressesList);
+        addressesList.forEach(address -> address.setClient(newClient));
         return this.clientsRepository.save(newClient);
     }
 
     //GET
     public Client findByID(UUID id) {
-        return this.clientsRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.clientsRepository.findById(id).orElseThrow(() -> new NotFoundException("Address with id " + id + " not found"));
     }
 
     //PUT

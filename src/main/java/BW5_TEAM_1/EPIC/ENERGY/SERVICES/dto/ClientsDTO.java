@@ -4,6 +4,8 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.CompanyType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 public record ClientsDTO(
         @NotNull(message = "Company is required ")
         String companyName,
@@ -25,6 +27,9 @@ public record ClientsDTO(
         String contactSurname,
         @NotNull(message = "Contact number is required ")
         long contactNumber,
-        CompanyType companyType
+        @NotNull(message = "Company type is required ")
+        CompanyType companyType,
+        @NotNull(message = "Addresses is required ")
+        List<String> addresses
 ) {
 }

@@ -39,11 +39,10 @@ public class Client {
     private CompanyType companyType;
 
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "address_id")
+    @OneToMany(mappedBy = "client")
     private List<Address> addressList;
 
-    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, CompanyType companyType) {
+    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, CompanyType companyType, List<Address> addressList) {
         this.companyName = companyName;
         this.vat = vat;
         this.email = email;
@@ -58,5 +57,6 @@ public class Client {
         this.contactNumber = contactNumber;
         this.companyLogo = companyLogo;
         this.companyType = companyType;
+        this.addressList = addressList;
     }
 }
