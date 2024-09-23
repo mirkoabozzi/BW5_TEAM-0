@@ -1,6 +1,6 @@
-package BW5_TEAM_0.EPIC.ENERGY.SERVICES.entities;
+package BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities;
 
-import BW5_TEAM_0.EPIC.ENERGY.SERVICES.enums.Role;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
