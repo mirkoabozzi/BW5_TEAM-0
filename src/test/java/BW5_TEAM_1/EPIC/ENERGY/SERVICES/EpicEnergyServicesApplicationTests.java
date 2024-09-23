@@ -1,4 +1,4 @@
-package BW5_TEAM_0.EPIC.ENERGY.SERVICES;
+package BW5_TEAM_1.EPIC.ENERGY.SERVICES;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class EpicEnergyServicesApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
