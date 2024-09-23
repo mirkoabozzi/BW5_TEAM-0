@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "addresses")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,13 +25,13 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "clients_id")
-    private Clients clients;
+    private Client client;
 
-    public Address(String street, int streetNumber, String location, int zipNumber, Clients clients) {
+    public Address(String street, int streetNumber, String location, int zipNumber, Client client) {
         this.street = street;
         this.streetNumber = streetNumber;
         this.location = location;
         this.zipNumber = zipNumber;
-        this.clients = clients;
+        this.client = client;
     }
 }

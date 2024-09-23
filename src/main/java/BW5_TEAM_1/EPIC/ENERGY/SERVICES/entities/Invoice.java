@@ -11,11 +11,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "invoices")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Invoices {
+public class Invoice {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -28,13 +28,13 @@ public class Invoices {
 
     @ManyToOne
     @JoinColumn(name = "clients_id")
-    private Clients clients;
+    private Client client;
 
-    public Invoices(LocalDate date, int totalAmount, int invoiceNumber, InvoicesState invoicesState, Clients clients) {
+    public Invoice(LocalDate date, int totalAmount, int invoiceNumber, InvoicesState invoicesState, Client client) {
         this.date = date;
         this.totalAmount = totalAmount;
         this.invoiceNumber = invoiceNumber;
         this.invoicesState = invoicesState;
-        this.clients = clients;
+        this.client = client;
     }
 }

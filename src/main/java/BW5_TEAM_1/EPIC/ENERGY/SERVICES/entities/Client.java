@@ -11,11 +11,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "clients")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Clients {
+public class Client {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -36,7 +36,7 @@ public class Clients {
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
 
-    public Clients(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, int annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, CompanyType companyType) {
+    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, int annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, CompanyType companyType) {
         this.companyName = companyName;
         this.vat = vat;
         this.email = email;
