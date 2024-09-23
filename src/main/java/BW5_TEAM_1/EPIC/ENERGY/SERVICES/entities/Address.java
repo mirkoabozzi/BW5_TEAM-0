@@ -1,6 +1,9 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +25,7 @@ public class Address {
     private int streetNumber;
     private String location;
     private int zipNumber;
-
-    @ManyToOne
-    @JoinColumn(name = "clients_id")
-    private Client client;
-
+    
     public Address(String street, int streetNumber, String location, int zipNumber) {
         this.street = street;
         this.streetNumber = streetNumber;

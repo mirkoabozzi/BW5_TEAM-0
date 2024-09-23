@@ -6,6 +6,10 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.AddressesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -26,6 +30,12 @@ public class AddressesService {
     //GET
     public Address findByID(UUID id) {
         return this.addressesRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    // GET PAGES
+    public Page<Address> getAllAddresses(int pages, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.addressesRepository.findAll(pageable);
     }
 
     //PUT

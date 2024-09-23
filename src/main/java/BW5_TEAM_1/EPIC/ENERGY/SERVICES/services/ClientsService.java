@@ -7,6 +7,10 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.ClientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,13 +44,18 @@ public class ClientsService {
                 "https://ui-avatars.com/api/?name=" + payload.contactName() + "+" + payload.contactSurname(),
                 payload.companyType(),
                 addressesList);
-        addressesList.forEach(address -> address.setClient(newClient));
         return this.clientsRepository.save(newClient);
     }
 
     //GET
     public Client findByID(UUID id) {
         return this.clientsRepository.findById(id).orElseThrow(() -> new NotFoundException("Address with id " + id + " not found"));
+    }
+
+    // GET PAGES
+    public Page<Client> getAllClients(int pages, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.clientsRepository.findAll(pageable);
     }
 
     //PUT

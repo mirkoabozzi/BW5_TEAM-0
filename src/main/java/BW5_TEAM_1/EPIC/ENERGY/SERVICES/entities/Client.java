@@ -1,7 +1,6 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities;
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.CompanyType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -38,8 +37,8 @@ public class Client {
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "client")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id")
     private List<Address> addressList;
 
     public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, CompanyType companyType, List<Address> addressList) {

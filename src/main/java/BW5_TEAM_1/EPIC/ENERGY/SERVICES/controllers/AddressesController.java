@@ -5,6 +5,7 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Address;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.AddressesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,14 @@ public class AddressesController {
         } else {
             return addressesService.saveAddress(payload);
         }
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Address> getAllAddresses(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "15") int size,
+                                         @RequestParam(defaultValue = "street") String sortBy) {
+        return this.addressesService.getAllAddresses(page, size, sortBy);
     }
 
     //GET BY ID
