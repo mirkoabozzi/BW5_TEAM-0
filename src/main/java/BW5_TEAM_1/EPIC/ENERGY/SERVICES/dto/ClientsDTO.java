@@ -25,7 +25,6 @@ public record ClientsDTO(
         String contactSurname,
         @NotNull(message = "Contact number is required ")
         long contactNumber,
-
         CompanyType companyType
 ) {
 }

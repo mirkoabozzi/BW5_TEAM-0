@@ -2,6 +2,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.services;
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.ClientsDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Client;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.ClientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ public class ClientsService {
 
     //POST SAVE
     public Client saveClient(ClientsDTO payload) {
-        if (clientsRepository.existsByVat(payload.vat())) throw new RuntimeException();
+        if (clientsRepository.existsByVat(payload.vat()))
+            throw new BadRequestException("Client with VAT " + payload.vat() + " already on DB");
         Client newClient = new Client(
                 payload.companyName(),
                 payload.vat(),

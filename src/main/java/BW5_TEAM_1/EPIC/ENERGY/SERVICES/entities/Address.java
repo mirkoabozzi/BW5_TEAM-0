@@ -27,11 +27,10 @@ public class Address {
     @JoinColumn(name = "clients_id")
     private Client client;
 
-    public Address(String street, int streetNumber, String location, int zipNumber, Client client) {
+    public Address(String street, int streetNumber, String location, int zipNumber) {
         this.street = street;
         this.streetNumber = streetNumber;
         this.location = location;
         this.zipNumber = zipNumber;
-        this.client = client;
     }
 }
