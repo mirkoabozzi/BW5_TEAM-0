@@ -27,8 +27,8 @@ public class ClientsService {
 
     //POST SAVE
     public Client saveClient(ClientsDTO payload) {
-        if (clientsRepository.existsByVat(payload.vat()))
-            throw new BadRequestException("Client with VAT " + payload.vat() + " already on DB");
+        if (clientsRepository.existsByVatAndEmail(payload.vat(), payload.email()))
+            throw new BadRequestException("Client with VAT " + payload.vat() + " and email " + payload.email() + " already on DB");
         List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
         Client newClient = new Client(
                 payload.companyName(),
