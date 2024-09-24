@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -70,4 +71,23 @@ public class ClientsController {
         this.clientsService.delete(id);
     }
 
+    //GET FILTER BY ANNUAL TURNOVER
+    @GetMapping("/turnover")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Client> filterClientsByAnnualTurnover(@RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "15") int size,
+                                                      @RequestParam(defaultValue = "companyName") String sortBy,
+                                                      @RequestParam(defaultValue = "0") long annualTurnover) {
+        return this.clientsService.filterClientsByAnnualTurnover(page, size, sortBy, annualTurnover);
+    }
+
+    //GET FILTER BY INSERT DATE
+    @GetMapping("/insertDate")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Client> filterClientsByInsertDate(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "15") int size,
+                                                  @RequestParam(defaultValue = "companyName") String sortBy,
+                                                  @RequestParam LocalDate insertDate) {
+        return this.clientsService.filterClientsByInsertDate(page, size, sortBy, insertDate);
+    }
 }

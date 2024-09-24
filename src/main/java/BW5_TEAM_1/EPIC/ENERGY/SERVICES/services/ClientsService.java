@@ -81,4 +81,16 @@ public class ClientsService {
     public void delete(UUID id) {
         this.clientsRepository.delete(this.findByID(id));
     }
+
+    //FILTER BY ANNUAL TURNOVER
+    public Page<Client> filterClientsByAnnualTurnover(int pages, int size, String sortBy, long annualTurnover) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.clientsRepository.findByAnnualTurnover(pageable, annualTurnover);
+    }
+
+    //FILTER BY INSERT DATE
+    public Page<Client> filterClientsByInsertDate(int pages, int size, String sortBy, LocalDate localDate) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.clientsRepository.findByInsertDate(pageable, localDate);
+    }
 }
