@@ -43,6 +43,17 @@ public class InvoicesController {
         return this.invoicesService.getAllInvoices(page, size, sortBy);
     }
 
+    // FILTER By CLIENT
+
+    @GetMapping("/clients")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Invoice> filterInvoiceByClients(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "15") int size,
+                                                @RequestParam(defaultValue = "invoiceNumber") String sortBy,
+                                                @RequestParam UUID clientId) {
+        return this.invoicesService.filterByClients(page, size, sortBy, clientId);
+    }
+
     //GET BY ID
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
