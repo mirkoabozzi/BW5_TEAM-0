@@ -2,7 +2,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.runners;
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.City;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Province;
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.CityRepository;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.CitiesRepository;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.ProvincesRepository;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
@@ -33,7 +33,7 @@ public class CsvToProvince {
 
 
     @Autowired
-    private CityRepository cityRepository;
+    private CitiesRepository citiesRepository;
     private ProvincesRepository provincesRepository;
 
     @Bean
@@ -109,7 +109,7 @@ public class CsvToProvince {
                     city.setId(UUID.randomUUID());
                     city.setName(nomeCittà);
                     city.setProvinceId(provinceId); // Associa provinceId
-                    cityRepository.save(city);
+                    citiesRepository.save(city);
                 }
             }
             System.out.println("Dati importati con successo nella tabella Cities!");
