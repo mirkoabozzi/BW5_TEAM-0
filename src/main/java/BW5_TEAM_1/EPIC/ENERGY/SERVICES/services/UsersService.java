@@ -20,10 +20,10 @@ import java.util.UUID;
 public class UsersService {
 
     @Autowired
-    UsersRepository userRepository;
+    public UsersRepository userRepository;
 
     @Autowired
-    PasswordEncoder bcrypt;
+    public PasswordEncoder bcrypt;
 
     // GET PAGES
     public Page<User> getAllEmployee(int pages, int size, String sortBy) {

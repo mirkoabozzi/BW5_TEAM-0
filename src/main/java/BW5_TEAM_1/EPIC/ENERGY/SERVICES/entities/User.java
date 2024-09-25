@@ -55,4 +55,23 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
+    public void setUsername(String username) {
+    }
+
+
+    public void setEmail(String email) {
+    }
+
+    public void setPassword(String encode) {
+    }
+
+    public void setName(String name) {
+    }
+
+    public void setSurname(String surname) {
+    }
+
+    public void setAvatar(String s) {
+    }
 }
