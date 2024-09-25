@@ -13,6 +13,8 @@ public record AddressesDTO(
         @Size(min = 3, max = 20, message = "Size must be from 3 to 20 character. ")
         String location,
         @NotNull(message = "ZIP number is required ")
-        int zipNumber
+        int zipNumber,
+        @NotNull(message = "City ID is required ")
+        String city
 ) {
 }
