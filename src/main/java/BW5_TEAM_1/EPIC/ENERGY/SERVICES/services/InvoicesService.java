@@ -44,6 +44,13 @@ public class InvoicesService {
         return this.invoicesRepository.findAll(pageable);
     }
 
+    // FILTER BY CLIENT
+    public Page<Invoice> filterByClients(int pages, int size, String sortBy) {
+        Client clientFormDb = this.clientsService.findByID();
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.invoicesRepository.findByClient(pageable);
+    }
+
     // PUT Update
     public Invoice updateInvoice(UUID id, InvoicesDTO payload) {
         Invoice invoiceFound = this.findByID(id);
