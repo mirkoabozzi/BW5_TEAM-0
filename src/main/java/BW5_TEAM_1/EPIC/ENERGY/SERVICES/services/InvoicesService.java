@@ -45,8 +45,8 @@ public class InvoicesService {
     }
 
     // FILTER BY CLIENT
-    public Page<Invoice> filterByClients(int pages, int size, String sortBy, InvoicesDTO payload) {
-        Client clientFormDb = this.clientsService.findByID(UUID.fromString(payload.clientId()));
+    public Page<Invoice> filterByClients(int pages, int size, String sortBy, UUID clientId) {
+        Client clientFormDb = this.clientsService.findByID(clientId);
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
         return this.invoicesRepository.findByClient(pageable, clientFormDb);
     }

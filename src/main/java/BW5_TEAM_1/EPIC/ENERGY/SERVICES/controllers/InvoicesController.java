@@ -49,13 +49,9 @@ public class InvoicesController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Invoice> filterInvoiceByClients(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "15") int size,
-                                                @RequestParam(defaultValue = "invoiceNumber") String sortBy, @RequestBody @Validated InvoicesDTO payload, BindingResult validation) {
-        if (validation.hasErrors()) {
-            String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
-            throw new BadRequestException("Payload error: " + msg);
-        } else {
-            return this.invoicesService.filterByClients(page, size, sortBy, payload);
-        }
+                                                @RequestParam(defaultValue = "invoiceNumber") String sortBy,
+                                                @RequestParam UUID clientId) {
+        return this.invoicesService.filterByClients(page, size, sortBy, clientId);
     }
 
     //GET BY ID
