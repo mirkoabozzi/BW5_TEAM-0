@@ -21,7 +21,7 @@ public interface ClientsRepository extends JpaRepository<Client, UUID> {
 
     Page<Client> findByLastContactDate(Pageable pageable, LocalDate lastContactDate);
 
-    @Query("SELECT c FROM Client c JOIN Province p WHERE p.name = :name")
+    @Query("SELECT c FROM Client c JOIN c.addressList a JOIN a.city ct JOIN ct.province p WHERE p.name = :name")
     Page<Client> findByProvinceName(Pageable pageable, @Param("name") String name);
 
     Page<Client> findByCompanyNameContaining(Pageable pageable, String name);
