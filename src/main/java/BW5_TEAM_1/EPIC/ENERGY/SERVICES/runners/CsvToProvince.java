@@ -8,6 +8,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,14 @@ import java.util.UUID;
 @Configuration
 public class CsvToProvince {
 
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.password}")
+    private String psw;
+    @Value("${spring.datasource.username}")
+    private String usr;
+
+
     @Autowired
     private CityRepository cityRepository;
     private ProvincesRepository provincesRepository;
@@ -30,16 +39,16 @@ public class CsvToProvince {
     @Bean
     public CommandLineRunner loadData() {
         return args -> {
-            loadProvinces();
+//            loadProvinces(); // scommentare per caricare province sul db
 
         };
     }
 
     private void loadProvinces() {
         String csvFile = "src/main/resources/data/province-italiane.csv";
-        String jdbcUrl = "jdbc:postgresql://localhost:5432/EPIC-ENERGY-SERVICES";
-        String username = "postgres";
-        String password = "1234";
+        String jdbcUrl = url;
+        String username = usr;
+        String password = psw;
 
         String insertQuery = "INSERT INTO public.provinces (id, initial, name) VALUES (?, ?, ?)";
 
