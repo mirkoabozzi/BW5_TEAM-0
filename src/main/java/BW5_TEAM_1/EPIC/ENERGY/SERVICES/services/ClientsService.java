@@ -3,7 +3,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.services;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.ClientsDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Address;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Client;
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.CompanyType;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Company;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.ClientsRepository;
@@ -24,11 +24,14 @@ public class ClientsService {
     private ClientsRepository clientsRepository;
     @Autowired
     private AddressesService addressesService;
+    @Autowired
+    private CompaniesService companiesService;
 
     //POST SAVE
     public Client saveClient(ClientsDTO payload) {
         if (clientsRepository.existsByVatAndEmail(payload.vat(), payload.email()))
             throw new BadRequestException("Client with VAT " + payload.vat() + " and email " + payload.email() + " already on DB");
+        Company companyTypeFound = this.companiesService.findByID(UUID.fromString(payload.companyType()));
         List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
         Client newClient = new Client(
                 payload.companyName(),
@@ -43,14 +46,14 @@ public class ClientsService {
                 payload.contactSurname(),
                 payload.contactNumber(),
                 "https://ui-avatars.com/api/?name=" + payload.contactName() + "+" + payload.contactSurname(),
-                CompanyType.valueOf(payload.companyType().toUpperCase()),
+                companyTypeFound,
                 addressesList);
         return this.clientsRepository.save(newClient);
     }
 
     //GET
     public Client findByID(UUID id) {
-        return this.clientsRepository.findById(id).orElseThrow(() -> new NotFoundException("Address with id " + id + " not found"));
+        return this.clientsRepository.findById(id).orElseThrow(() -> new NotFoundException("Client with id " + id + " not found"));
     }
 
     // GET PAGES
@@ -63,6 +66,7 @@ public class ClientsService {
     public Client updateClient(UUID id, ClientsDTO payload) {
         List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
         Client clientFound = this.findByID(id);
+        Company companyTypeFound = this.companiesService.findByID(UUID.fromString(payload.companyType()));
         clientFound.setCompanyName(payload.companyName());
         clientFound.setVat(payload.vat());
         clientFound.setEmail(payload.email());
@@ -71,7 +75,7 @@ public class ClientsService {
         clientFound.setContactEmail(payload.contactEmail());
         clientFound.setContactSurname(payload.contactSurname());
         clientFound.setContactNumber(payload.contactNumber());
-        clientFound.setCompanyType(CompanyType.valueOf(payload.companyType().toUpperCase()));
+        clientFound.setCompany(companyTypeFound);
         clientFound.getAddressList().clear();
         clientFound.getAddressList().addAll(addressesList);
         return this.clientsRepository.save(clientFound);

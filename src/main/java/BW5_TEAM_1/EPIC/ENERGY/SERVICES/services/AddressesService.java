@@ -33,7 +33,7 @@ public class AddressesService {
 
     //GET
     public Address findByID(UUID id) {
-        return this.addressesRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.addressesRepository.findById(id).orElseThrow(() -> new NotFoundException("Address with id " + id + " not found"));
     }
 
     // GET PAGES

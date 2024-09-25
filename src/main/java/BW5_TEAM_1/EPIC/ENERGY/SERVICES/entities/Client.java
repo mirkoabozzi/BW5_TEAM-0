@@ -1,6 +1,5 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities;
 
-import BW5_TEAM_1.EPIC.ENERGY.SERVICES.enums.CompanyType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,14 +33,17 @@ public class Client {
     private String contactSurname;
     private long contactNumber;
     private String companyLogo;
-    @Enumerated(EnumType.STRING)
-    private CompanyType companyType;
+
+    @ManyToOne
+    @JoinColumn(name = "company_type_id")
+    private Company company;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private List<Address> addressList;
 
-    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, CompanyType companyType, List<Address> addressList) {
+
+    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, Company company, List<Address> addressList) {
         this.companyName = companyName;
         this.vat = vat;
         this.email = email;
@@ -55,7 +57,7 @@ public class Client {
         this.contactSurname = contactSurname;
         this.contactNumber = contactNumber;
         this.companyLogo = companyLogo;
-        this.companyType = companyType;
+        this.company = company;
         this.addressList = addressList;
     }
 }

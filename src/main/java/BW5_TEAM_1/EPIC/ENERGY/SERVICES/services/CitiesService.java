@@ -15,6 +15,6 @@ public class CitiesService {
 
 
     public City findByID(UUID id) {
-        return this.citiesRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return this.citiesRepository.findById(id).orElseThrow(() -> new NotFoundException("City with id " + id + " not found"));
     }
 }
