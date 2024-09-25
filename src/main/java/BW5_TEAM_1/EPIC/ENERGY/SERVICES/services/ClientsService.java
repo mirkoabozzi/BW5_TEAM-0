@@ -109,4 +109,10 @@ public class ClientsService {
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
         return this.clientsRepository.findByProvinceName(pageable, provinceName);
     }
+
+    //FIND BY CLIENTS CONTAINS NAME
+    public Page<Client> findByClientsContainsName(int pages, int size, String sortBy, String name) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.clientsRepository.findByCompanyNameContaining(pageable, name);
+    }
 }

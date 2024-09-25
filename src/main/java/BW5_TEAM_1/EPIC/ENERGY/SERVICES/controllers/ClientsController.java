@@ -110,4 +110,14 @@ public class ClientsController {
                                            @RequestParam String provinceName) {
         return this.clientsService.findByProvinceName(page, size, sortBy, provinceName);
     }
+
+    //GET FIND BY PROVINCE NAME
+    @GetMapping("/containsName")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Client> findByClientsContainsName(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "15") int size,
+                                                  @RequestParam(defaultValue = "companyName") String sortBy,
+                                                  @RequestParam String name) {
+        return this.clientsService.findByClientsContainsName(page, size, sortBy, name);
+    }
 }

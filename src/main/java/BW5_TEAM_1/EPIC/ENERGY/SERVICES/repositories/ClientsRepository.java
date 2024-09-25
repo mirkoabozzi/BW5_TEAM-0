@@ -23,4 +23,6 @@ public interface ClientsRepository extends JpaRepository<Client, UUID> {
 
     @Query("SELECT c FROM Client c JOIN Province p WHERE p.name = :name")
     Page<Client> findByProvinceName(Pageable pageable, @Param("name") String name);
+
+    Page<Client> findByCompanyNameContaining(Pageable pageable, String name);
 }
