@@ -45,10 +45,10 @@ public class InvoicesService {
     }
 
     // FILTER BY CLIENT
-    public Page<Invoice> filterByClients(int pages, int size, String sortBy) {
-        Client clientFormDb = this.clientsService.findByID();
+    public Page<Invoice> filterByClients(int pages, int size, String sortBy, InvoicesDTO payload) {
+        Client clientFormDb = this.clientsService.findByID(UUID.fromString(payload.clientId()));
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
-        return this.invoicesRepository.findByClient(pageable);
+        return this.invoicesRepository.findByClient(pageable, clientFormDb);
     }
 
     // PUT Update
