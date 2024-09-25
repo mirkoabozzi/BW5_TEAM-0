@@ -51,6 +51,30 @@ public class InvoicesService {
         return this.invoicesRepository.findByClient(pageable, clientFormDb);
     }
 
+    // FILTER BY INVOICE STATE
+    public Page<Invoice> filterByInvoiceState(int pages, int size, String sortBy, String invoicesState) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.invoicesRepository.findByInvoicesState(pageable, InvoicesState.valueOf(invoicesState.toUpperCase()));
+    }
+
+    // FILTER BY DATE
+    public Page<Invoice> filterByInvoiceDate(int pages, int size, String sortBy, LocalDate date) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.invoicesRepository.findByDate(pageable, date);
+    }
+
+    // FILTER INVOICE BY YEAR
+    public Page<Invoice> filterInvoiceByYear(int pages, int size, String sortBy, int year) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.invoicesRepository.findByYear(pageable, year);
+    }
+
+    //FIND INVOICE BY AMOUNT RANGE
+    public Page<Invoice> filterInvoiceByAmountRange(int pages, int size, String sortBy, int min, int max) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.invoicesRepository.findByAmountRange(pageable, min, max);
+    }
+
     // PUT Update
     public Invoice updateInvoice(UUID id, InvoicesDTO payload) {
         Invoice invoiceFound = this.findByID(id);

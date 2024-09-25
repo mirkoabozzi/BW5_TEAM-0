@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,6 @@ public class InvoicesController {
     }
 
     // FILTER By CLIENT
-
     @GetMapping("/clients")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Invoice> filterInvoiceByClients(@RequestParam(defaultValue = "0") int page,
@@ -52,6 +52,47 @@ public class InvoicesController {
                                                 @RequestParam(defaultValue = "invoiceNumber") String sortBy,
                                                 @RequestParam UUID clientId) {
         return this.invoicesService.filterByClients(page, size, sortBy, clientId);
+    }
+
+    // FILTER BI INVOICE STATE
+    @GetMapping("/state")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Invoice> filterInvoiceByInvoiceState(@RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "15") int size,
+                                                     @RequestParam(defaultValue = "invoiceNumber") String sortBy,
+                                                     @RequestParam String state) {
+        return this.invoicesService.filterByInvoiceState(page, size, sortBy, state);
+    }
+
+    // FILTER BY INVOICE DATE
+    @GetMapping("/date")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Invoice> filterInvoiceByDate(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "15") int size,
+                                             @RequestParam(defaultValue = "invoiceNumber") String sortBy,
+                                             @RequestParam LocalDate date) {
+        return this.invoicesService.filterByInvoiceDate(page, size, sortBy, date);
+    }
+
+    // FILTER INVOICE BY YEAR
+    @GetMapping("/year")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Invoice> filterInvoiceByYear(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "15") int size,
+                                             @RequestParam(defaultValue = "invoiceNumber") String sortBy,
+                                             @RequestParam int year) {
+        return this.invoicesService.filterInvoiceByYear(page, size, sortBy, year);
+    }
+
+    // FILTER INVOICE BY AMOUNT RANGE
+    @GetMapping("/amountRange")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Invoice> filterInvoiceByAmountRange(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "15") int size,
+                                                    @RequestParam(defaultValue = "invoiceNumber") String sortBy,
+                                                    @RequestParam int min,
+                                                    @RequestParam int max) {
+        return this.invoicesService.filterInvoiceByAmountRange(page, size, sortBy, min, max);
     }
 
     //GET BY ID
