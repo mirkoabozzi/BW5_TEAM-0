@@ -93,4 +93,16 @@ public class ClientsService {
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
         return this.clientsRepository.findByInsertDate(pageable, localDate);
     }
+
+    //FILTER BY LAST CONTACT DATE
+    public Page<Client> filterClientsByLastContactDate(int pages, int size, String sortBy, LocalDate localDate) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.clientsRepository.findByLastContactDate(pageable, localDate);
+    }
+
+    //FIND BY PROVINCE NAME
+    public Page<Client> findByProvinceName(int pages, int size, String sortBy, String provinceName) {
+        Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
+        return this.clientsRepository.findByProvinceName(pageable, provinceName);
+    }
 }

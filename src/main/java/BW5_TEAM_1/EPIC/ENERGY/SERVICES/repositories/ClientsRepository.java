@@ -4,6 +4,8 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -16,4 +18,9 @@ public interface ClientsRepository extends JpaRepository<Client, UUID> {
     Page<Client> findByAnnualTurnover(Pageable pageable, long annualTurnover);
 
     Page<Client> findByInsertDate(Pageable pageable, LocalDate insertDate);
+
+    Page<Client> findByLastContactDate(Pageable pageable, LocalDate lastContactDate);
+
+    @Query("SELECT c FROM Client c JOIN Province p WHERE p.name = :name")
+    Page<Client> findByProvinceName(Pageable pageable, @Param("name") String name);
 }

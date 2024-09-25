@@ -90,4 +90,24 @@ public class ClientsController {
                                                   @RequestParam LocalDate insertDate) {
         return this.clientsService.filterClientsByInsertDate(page, size, sortBy, insertDate);
     }
+
+    //GET FILTER BY LAST CONTACT DATE
+    @GetMapping("/contactDate")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Client> filterClientsByLastContactDate(@RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "15") int size,
+                                                       @RequestParam(defaultValue = "companyName") String sortBy,
+                                                       @RequestParam LocalDate lastContactDate) {
+        return this.clientsService.filterClientsByLastContactDate(page, size, sortBy, lastContactDate);
+    }
+
+    //GET FIND BY PROVINCE NAME
+    @GetMapping("/provinceName")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Client> findByProvinceName(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "15") int size,
+                                           @RequestParam(defaultValue = "companyName") String sortBy,
+                                           @RequestParam String provinceName) {
+        return this.clientsService.findByProvinceName(page, size, sortBy, provinceName);
+    }
 }
