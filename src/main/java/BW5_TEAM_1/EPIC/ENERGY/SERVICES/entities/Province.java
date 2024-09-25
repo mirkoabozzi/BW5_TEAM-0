@@ -12,24 +12,27 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "provinces")
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 public class Province {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Setter(AccessLevel.NONE)
     private UUID id;
+
     private String initial;
     private String name;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "province")
     private Set<City> city;
 
+
     public Province(String initial, String name) {
         this.initial = initial;
         this.name = name;
-    }
 
+    }
 }

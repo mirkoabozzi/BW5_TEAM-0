@@ -30,4 +30,10 @@ public class City {
         this.name = name;
     }
 
+
+    public void setId(UUID uuid) {
+    }
+
+    public void setProvinceId(UUID provinceId) {
+    }
 }
