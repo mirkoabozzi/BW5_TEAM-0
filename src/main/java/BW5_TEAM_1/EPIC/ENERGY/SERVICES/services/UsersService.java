@@ -27,7 +27,7 @@ public class UsersService {
     public PasswordEncoder bcrypt;
 
     // GET PAGES
-    public Page<User> getAllEmployee(int pages, int size, String sortBy) {
+    public Page<User> getAllUser(int pages, int size, String sortBy) {
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
         return this.userRepository.findAll(pageable);
     }
