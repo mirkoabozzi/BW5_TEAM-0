@@ -75,7 +75,6 @@ public class ProvincesService {
                             nomeProvincia = "Sud Sardegna";
                             codiceProvincia = "SU";
                         }
-                        case "Olbia Tempio" -> nomeProvincia = "Sassari";
                         case "Ogliastra" -> nomeProvincia = "Nuoro";
                         case "Roma" -> codiceProvincia = "RM";
                     }
