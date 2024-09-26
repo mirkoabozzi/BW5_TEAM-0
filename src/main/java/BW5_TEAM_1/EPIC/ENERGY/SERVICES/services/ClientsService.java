@@ -7,13 +7,17 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.Company;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.ClientsRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -25,6 +29,8 @@ public class ClientsService {
     private AddressesService addressesService;
     @Autowired
     private CompaniesService companiesService;
+    @Autowired
+    private Cloudinary cloudinary;
 
     //POST SAVE
     public Client saveClient(ClientsDTO payload) {
@@ -116,5 +122,13 @@ public class ClientsService {
     public Page<Client> findByClientsContainsName(int pages, int size, String sortBy, String name) {
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
         return this.clientsRepository.findByCompanyNameContaining(pageable, name);
+    }
+
+    //POST CLIENTS LOGO
+    public void imgUpload(MultipartFile file, String id) throws IOException {
+        Client clientFound = this.findByID(UUID.fromString(id));
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        clientFound.setCompanyLogo(url);
+        this.clientsRepository.save(clientFound);
     }
 }

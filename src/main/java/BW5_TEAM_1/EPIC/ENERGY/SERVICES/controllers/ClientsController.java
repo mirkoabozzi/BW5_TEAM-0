@@ -11,7 +11,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -119,5 +122,13 @@ public class ClientsController {
                                                   @RequestParam(defaultValue = "companyName") String sortBy,
                                                   @RequestParam String name) {
         return this.clientsService.findByClientsContainsName(page, size, sortBy, name);
+    }
+
+    //POST CLIENTS IMG
+    @PostMapping("/logo")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void imgUpload(@RequestParam("logo") MultipartFile img,
+                          @RequestParam("clientId") String id) throws IOException, MaxUploadSizeExceededException {
+        this.clientsService.imgUpload(img, id);
     }
 }
