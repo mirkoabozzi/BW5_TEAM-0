@@ -4,11 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
 public record ClientsDTO(
         @NotNull(message = "Company is required ")
-        @Size(min = 3, max = 20, message = "Size must be from 3 to 20 character. ")
+        @Size(min = 3, max = 20, message = "Company size must be from 3 to 20 character. ")
         String companyName,
         @NotNull(message = "VAT is required ")
         long vat,
@@ -32,7 +30,9 @@ public record ClientsDTO(
         long contactNumber,
         @NotNull(message = "Company type is required ")
         String companyType,
-        @NotNull(message = "Addresses is required ")
-        List<String> addresses
+        @NotNull(message = "Work addresses is required ")
+        String workAddress,
+        @NotNull(message = "Operative addresses is required ")
+        String operativeAddress
 ) {
 }

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,7 +31,8 @@ public class ClientsService {
         if (clientsRepository.existsByVatAndEmail(payload.vat(), payload.email()))
             throw new BadRequestException("Client with VAT " + payload.vat() + " and email " + payload.email() + " already on DB");
         Company companyTypeFound = this.companiesService.findByID(UUID.fromString(payload.companyType()));
-        List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
+        Address workAddressFound = this.addressesService.findByID(UUID.fromString(payload.workAddress()));
+        Address operativeAddressFound = this.addressesService.findByID(UUID.fromString(payload.operativeAddress()));
         Client newClient = new Client(
                 payload.companyName(),
                 payload.vat(),
@@ -47,7 +47,8 @@ public class ClientsService {
                 payload.contactNumber(),
                 "https://ui-avatars.com/api/?name=" + payload.contactName() + "+" + payload.contactSurname(),
                 companyTypeFound,
-                addressesList);
+                workAddressFound,
+                operativeAddressFound);
         return this.clientsRepository.save(newClient);
     }
 
@@ -64,9 +65,10 @@ public class ClientsService {
 
     //PUT UPDATE
     public Client updateClient(UUID id, ClientsDTO payload) {
-        List<Address> addressesList = payload.addresses().stream().map(addressId -> addressesService.findByID(UUID.fromString(addressId))).toList();
         Client clientFound = this.findByID(id);
         Company companyTypeFound = this.companiesService.findByID(UUID.fromString(payload.companyType()));
+        Address workAddressFound = this.addressesService.findByID(UUID.fromString(payload.workAddress()));
+        Address operativeAddressFound = this.addressesService.findByID(UUID.fromString(payload.operativeAddress()));
         clientFound.setCompanyName(payload.companyName());
         clientFound.setVat(payload.vat());
         clientFound.setEmail(payload.email());
@@ -76,8 +78,8 @@ public class ClientsService {
         clientFound.setContactSurname(payload.contactSurname());
         clientFound.setContactNumber(payload.contactNumber());
         clientFound.setCompany(companyTypeFound);
-        clientFound.getAddressList().clear();
-        clientFound.getAddressList().addAll(addressesList);
+        clientFound.setWorkAddress(workAddressFound);
+        clientFound.setOperativeAddress(operativeAddressFound);
         return this.clientsRepository.save(clientFound);
     }
 

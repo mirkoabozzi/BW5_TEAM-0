@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,12 +37,16 @@ public class Client {
     @JoinColumn(name = "company_type_id")
     private Company company;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
-    private List<Address> addressList;
+    @ManyToOne
+    @JoinColumn(name = "work_address_id")
+    private Address workAddress;
+
+    @ManyToOne
+    @JoinColumn(name = "operative_address_id")
+    private Address operativeAddress;
 
 
-    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, Company company, List<Address> addressList) {
+    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, Company company, Address workAddress, Address operativeAddress) {
         this.companyName = companyName;
         this.vat = vat;
         this.email = email;
@@ -58,6 +61,7 @@ public class Client {
         this.contactNumber = contactNumber;
         this.companyLogo = companyLogo;
         this.company = company;
-        this.addressList = addressList;
+        this.workAddress = workAddress;
+        this.operativeAddress = operativeAddress;
     }
 }
