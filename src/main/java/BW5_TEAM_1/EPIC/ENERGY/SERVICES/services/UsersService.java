@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,7 +27,7 @@ public class UsersService {
     public PasswordEncoder bcrypt;
 
     // GET PAGES
-    public Page<User> getAllEmployee(int pages, int size, String sortBy) {
+    public Page<User> getAllUser(int pages, int size, String sortBy) {
         Pageable pageable = PageRequest.of(pages, size, Sort.by(sortBy));
         return this.userRepository.findAll(pageable);
     }
@@ -54,6 +55,11 @@ public class UsersService {
 
     public User findFromEmail(String email) {
         return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(email));
+    }
+
+    // GET user con Optional
+    public Optional<User> findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 
 }
