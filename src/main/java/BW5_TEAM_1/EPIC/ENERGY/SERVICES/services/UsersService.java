@@ -6,6 +6,7 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.User;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.UsersRepository;
+import BW5_TEAM_1.EPIC.ENERGY.SERVICES.tools.MailgunSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,9 @@ public class UsersService {
 
     @Autowired
     public UsersRepository userRepository;
+
+    @Autowired
+    MailgunSender mailgunSender;
 
     @Autowired
     public PasswordEncoder bcrypt;
@@ -49,7 +53,9 @@ public class UsersService {
                 body.name(),
                 body.surname(),
                 "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
-        return this.userRepository.save(newUser);
+        User savedUser = this.userRepository.save(newUser);
+        this.mailgunSender.sendRegistrationEmail(newUser);
+        return savedUser;
     }
 
     public User findFromEmail(String email) {
