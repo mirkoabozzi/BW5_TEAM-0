@@ -1,6 +1,5 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.controllers;
 
-
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto.UserDTO;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.User;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.services.UsersService;
@@ -8,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -25,7 +27,7 @@ public class UsersController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy) {
-        Page<User> users = usersService.getAllEmployee(page, size, sortBy);
+        Page<User> users = usersService.getAllUser(page, size, sortBy);
         return ResponseEntity.ok(users);
     }
 
@@ -61,11 +63,28 @@ public class UsersController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    // DELETE elimina utente
+    // DELETE elimina utente - accessibile solo agli ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         User userToDelete = usersService.findById(id);
         usersService.userRepository.delete(userToDelete);
         return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint /me
+    @GetMapping("/me")
+    public ResponseEntity<User> getAuthenticatedUser() {
+
+        // Ottenere l'utente autenticato
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Recuperare l'utente dal database tramite UsersService
+        User authenticatedUser = usersService.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Utente autenticato non trovato"));
+
+        // Restituire le informazioni dell'utente autenticato
+        return ResponseEntity.ok(authenticatedUser);
     }
 }
