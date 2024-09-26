@@ -29,7 +29,7 @@ public class MailgunSender {
                 .basicAuth("api", this.apiKey)
                 .queryString("from", this.emailFrom)
                 .queryString("to", recipient.getEmail()) // N.B. Ricordarsi di verificare tramite dashboard Mailgun l'indirizzo del ricevente
-                .queryString("subject", "Registrazione completata")
+                .queryString("subject", "THANKS " + recipient.getName() + " " + recipient.getSurname() + " TO REGISTER")
                 .queryString("template", "bw5")
                 .asJson();
         System.out.println(response.getBody()); // <- Stampo il messaggio in risposta per rilevare eventuali errori
