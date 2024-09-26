@@ -29,7 +29,7 @@ public class InvoicesService {
         if (this.invoicesRepository.existsByInvoiceNumber(payload.invoiceNumber()))
             throw new BadRequestException("Invoice number already used!");
         Client clientFound = this.clientsService.findByID(UUID.fromString(payload.clientId()));
-        Invoice newInvoice = new Invoice(LocalDate.now(), payload.totalAmount(), payload.invoiceNumber(), InvoicesState.valueOf(payload.invoicesState().toUpperCase()), clientFound);
+        Invoice newInvoice = new Invoice(payload.date(), payload.totalAmount(), payload.invoiceNumber(), InvoicesState.valueOf(payload.invoicesState().toUpperCase()), clientFound);
         return invoicesRepository.save(newInvoice);
     }
 

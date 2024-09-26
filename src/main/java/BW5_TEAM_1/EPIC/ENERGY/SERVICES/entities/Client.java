@@ -24,7 +24,7 @@ public class Client {
     private String email;
     private LocalDate insertDate;
     private LocalDate lastContactDate;
-    private long annualTurnover;
+    private double annualTurnover;
     private String pec;
     private long telNumber;
     private String contactEmail;
@@ -46,7 +46,7 @@ public class Client {
     private Address operativeAddress;
 
 
-    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, long annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, Company company, Address workAddress, Address operativeAddress) {
+    public Client(String companyName, long vat, String email, LocalDate insertDate, LocalDate lastContactDate, double annualTurnover, String pec, long telNumber, String contactEmail, String contactName, String contactSurname, long contactNumber, String companyLogo, Company company, Address workAddress, Address operativeAddress) {
         this.companyName = companyName;
         this.vat = vat;
         this.email = email;

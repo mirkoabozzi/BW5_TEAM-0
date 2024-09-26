@@ -19,17 +19,16 @@ public class City {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Setter(AccessLevel.NONE)
     private UUID id;
+
     @ManyToOne
     @JoinColumn(name = "province_id")
     private Province province;
     private String name;
 
     public City(Province province, String name) {
-
         this.province = province;
         this.name = name;
     }
-
 
     public void setId(UUID uuid) {
     }

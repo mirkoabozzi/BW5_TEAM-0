@@ -20,15 +20,12 @@ public class Province {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Setter(AccessLevel.NONE)
     private UUID id;
-
     private String initial;
     private String name;
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "province")
     private Set<City> city;
-
 
     public Province(String initial, String name) {
         this.initial = initial;

@@ -21,7 +21,7 @@ public class Invoice {
     @Setter(AccessLevel.NONE)
     private UUID id;
     private LocalDate date;
-    private int totalAmount;
+    private double totalAmount;
     private int invoiceNumber;
     @Enumerated(EnumType.STRING)
     private InvoicesState invoicesState;
@@ -30,7 +30,7 @@ public class Invoice {
     @JoinColumn(name = "clients_id")
     private Client client;
 
-    public Invoice(LocalDate date, int totalAmount, int invoiceNumber, InvoicesState invoicesState, Client client) {
+    public Invoice(LocalDate date, double totalAmount, int invoiceNumber, InvoicesState invoicesState, Client client) {
         this.date = date;
         this.totalAmount = totalAmount;
         this.invoiceNumber = invoiceNumber;
