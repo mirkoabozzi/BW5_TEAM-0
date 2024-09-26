@@ -1,8 +1,8 @@
 package BW5_TEAM_1.EPIC.ENERGY.SERVICES.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 public record CompaniesDTO(
-        @NotNull(message = "Company name is required ")
+        @NotEmpty(message = "Company name is required ")
         String name) {
 }

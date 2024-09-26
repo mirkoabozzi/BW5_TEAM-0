@@ -17,7 +17,7 @@ public class CompaniesService {
 
     // POST SAVE COMPANY
     public Company saveCompany(CompaniesDTO payload) {
-        if (this.companiesRepository.existsByName(payload.name()))
+        if (this.companiesRepository.existsByName(payload.name().toUpperCase()))
             throw new BadRequestException("Company type " + payload.name() + " already exists on DB");
         Company newCompany = new Company(payload.name().toUpperCase());
         return this.companiesRepository.save(newCompany);
