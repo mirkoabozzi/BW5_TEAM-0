@@ -45,7 +45,7 @@ public class UsersService {
     // POST per SAVE USER
     public User saveUser(UserDTO body) {
         if (this.userRepository.existsByEmail(body.email())) {
-            throw new BadRequestException("Employee with this email already exists");
+            throw new BadRequestException("User with this email already exists");
         }
         User newUser = new User(
                 body.username(),
