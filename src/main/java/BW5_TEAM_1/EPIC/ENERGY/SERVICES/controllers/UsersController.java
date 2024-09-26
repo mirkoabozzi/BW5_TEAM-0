@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -67,5 +69,18 @@ public class UsersController {
         User userToDelete = usersService.findById(id);
         usersService.userRepository.delete(userToDelete);
         return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint /me
+    @GetMapping("/me")
+    public ResponseEntity<User> getAuthenticatedUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User authenticatedUser = usersService.findByUsername(username)
+                .orElseThrow (() -> new RuntimeException("Utente autenticato non trovato"));
+
+        return ResponseEntity.ok(authenticatedUser);
     }
 }

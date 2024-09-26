@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -54,6 +55,11 @@ public class UsersService {
 
     public User findFromEmail(String email) {
         return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(email));
+    }
+
+    // GET user con Optional
+    public Optional<User> findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 
 }
