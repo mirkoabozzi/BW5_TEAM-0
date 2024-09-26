@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 public class AppConfig {
@@ -30,4 +31,6 @@ public class AppConfig {
     PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(11);
     }
+
+
 }
