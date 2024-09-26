@@ -3,6 +3,7 @@ package BW5_TEAM_1.EPIC.ENERGY.SERVICES.tools;
 
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.entities.User;
 
+import feign.Client;
 import kong.unirest.core.HttpResponse;
 import kong.unirest.core.JsonNode;
 import kong.unirest.core.Unirest;
@@ -29,8 +30,10 @@ public class MailgunSender {
                 .queryString("from", this.emailFrom)
                 .queryString("to", recipient.getEmail()) // N.B. Ricordarsi di verificare tramite dashboard Mailgun l'indirizzo del ricevente
                 .queryString("subject", "Registrazione completata")
-                .queryString("text", "Ciao " + recipient.getName() + ", grazie per esserti registrato!")
+                .queryString("template", "bw5")
                 .asJson();
         System.out.println(response.getBody()); // <- Stampo il messaggio in risposta per rilevare eventuali errori
     }
+
+
 }
