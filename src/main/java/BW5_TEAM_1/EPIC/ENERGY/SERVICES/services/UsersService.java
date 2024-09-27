@@ -7,6 +7,8 @@ import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.BadRequestException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.exceptions.NotFoundException;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.repositories.UsersRepository;
 import BW5_TEAM_1.EPIC.ENERGY.SERVICES.tools.MailgunSender;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,12 +28,12 @@ public class UsersService {
 
     @Autowired
     public UsersRepository userRepository;
-
-    @Autowired
-    MailgunSender mailgunSender;
-
     @Autowired
     public PasswordEncoder bcrypt;
+    @Autowired
+    MailgunSender mailgunSender;
+    @Autowired
+    private Cloudinary cloudinary;
 
     // GET PAGES
     public Page<User> getAllUser(int pages, int size, String sortBy) {
@@ -66,6 +71,25 @@ public class UsersService {
     // GET user con Optional
     public Optional<User> findByUsername(String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+
+    //PUT
+    public User update(UUID id, UserDTO payload) {
+        User found = this.findById(id);
+        found.setUsername(payload.username());
+        found.setName(payload.name());
+        found.setSurname(payload.surname());
+        found.setEmail(payload.email());
+        return this.userRepository.save(found);
+    }
+
+    //IMG UPLOAD
+    public void imgUpload(MultipartFile file, UUID id) throws IOException, MaxUploadSizeExceededException {
+        User userFound = this.findById(id);
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        userFound.setAvatar(url);
+        this.userRepository.save(userFound);
     }
 
 }

@@ -9,9 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -73,7 +77,7 @@ public class UsersController {
     }
 
     // Endpoint /me
-    @GetMapping("/me")
+//    @GetMapping("/me")
     public ResponseEntity<User> getAuthenticatedUser() {
 
         // Ottenere l'utente autenticato
@@ -87,4 +91,24 @@ public class UsersController {
         // Restituire le informazioni dell'utente autenticato
         return ResponseEntity.ok(authenticatedUser);
     }
+
+    //GET ME
+    @GetMapping("/me")
+    public User getProfile(@AuthenticationPrincipal User userAuthenticated) {
+        return userAuthenticated;
+    }
+
+    // PUT ME
+    @PutMapping("/me")
+    public User updateProfile(@AuthenticationPrincipal User userAuthenticated, @RequestBody UserDTO payload) {
+        return this.usersService.update(userAuthenticated.getId(), payload);
+    }
+
+    //POST ME IMG
+    @PostMapping("/me/avatar")
+    public void imgUploadME(@RequestParam("avatar") MultipartFile img, @AuthenticationPrincipal User userAuthenticated) throws IOException, MaxUploadSizeExceededException {
+        this.usersService.imgUpload(img, userAuthenticated.getId());
+    }
+
+
 }
