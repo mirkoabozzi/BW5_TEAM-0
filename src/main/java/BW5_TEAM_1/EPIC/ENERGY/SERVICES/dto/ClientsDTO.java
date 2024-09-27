@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 public record ClientsDTO(
         @NotEmpty(message = "Company is required ")
-        @Size(min = 3, max = 20, message = "Company size must be from 3 to 20 character. ")
+        @Size(min = 3, max = 40, message = "Company size must be from 3 to 40 character. ")
         String companyName,
         @NotNull(message = "VAT is required ")
         long vat,

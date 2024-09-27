@@ -13,7 +13,9 @@ import java.util.UUID;
 
 @Repository
 public interface ClientsRepository extends JpaRepository<Client, UUID> {
-    boolean existsByVatAndEmail(long vat, String email);
+    boolean existsByVat(long vat);
+
+    boolean existsByEmail(String email);
 
     Page<Client> findByAnnualTurnover(Pageable pageable, long annualTurnover);
 

@@ -34,8 +34,8 @@ public class ClientsService {
 
     //POST SAVE
     public Client saveClient(ClientsDTO payload) {
-        if (clientsRepository.existsByVatAndEmail(payload.vat(), payload.email()))
-            throw new BadRequestException("Client with VAT " + payload.vat() + " and email " + payload.email() + " already on DB");
+        if (clientsRepository.existsByVat(payload.vat()) | clientsRepository.existsByEmail(payload.email()))
+            throw new BadRequestException("Client with VAT " + payload.vat() + " or " + payload.email() + " already on DB");
         Company companyTypeFound = this.companiesService.findByID(UUID.fromString(payload.companyType()));
         Address workAddressFound = this.addressesService.findByID(UUID.fromString(payload.workAddress()));
         Address operativeAddressFound = this.addressesService.findByID(UUID.fromString(payload.operativeAddress()));
